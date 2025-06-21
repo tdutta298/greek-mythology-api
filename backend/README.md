@@ -1,1 +1,0 @@
-# greek-mythology-api
