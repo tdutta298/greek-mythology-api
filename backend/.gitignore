@@ -1,0 +1,15 @@
+# Node.js backend
+node_modules/
+.env
+
+# Flutter frontend
+/frontend/.dart_tool/
+/frontend/.packages
+/frontend/.flutter-plugins
+/frontend/.flutter-plugins-dependencies
+/frontend/.idea/
+/frontend/.vscode/
+/frontend/build/
+/frontend/ios/Flutter/Flutter.framework
+/frontend/ios/Pods/
+/frontend/.DS_Store
