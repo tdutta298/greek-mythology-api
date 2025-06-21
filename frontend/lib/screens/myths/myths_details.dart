@@ -5,14 +5,38 @@ class MythDetailsPage extends StatelessWidget {
   const MythDetailsPage({super.key, required this.myth});
 
   Widget _buildDetail(String title, dynamic value) {
-    if (value is List) value = value.join(', ');
+    String displayValue = "N/A";
+
+    if (value != null) {
+      if (value is List) {
+        if (value.isNotEmpty) {
+          displayValue = value.where((item) => item != null && item.toString().trim().isNotEmpty).join(', ');
+          if (displayValue.isEmpty) displayValue = "N/A";
+        }
+      } else if (value is String) {
+        if (value.trim().isNotEmpty) {
+          displayValue = value.trim();
+        }
+      } else {
+        String strValue = value.toString().trim();
+        if (strValue.isNotEmpty && strValue != 'null') {
+          displayValue = strValue;
+        }
+      }
+    }
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("$title: ", style: const TextStyle(fontWeight: FontWeight.bold)),
-          Expanded(child: Text(value ?? "N/A")),
+          Text(
+            "$title:",
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.purple),
+          ),
+          const SizedBox(height: 4),
+          Text(displayValue, style: const TextStyle(fontSize: 14)),
+          const Divider(color: Colors.grey),
         ],
       ),
     );
@@ -22,13 +46,13 @@ class MythDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(myth['title']), backgroundColor: Colors.purple),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildDetail("Summary", myth['summary']),
-            _buildDetail("Characters", myth['characters']),
+            _buildDetail("Characters Involved", myth['charactersInvolved']),
             _buildDetail("Locations", myth['locations']),
             _buildDetail("Moral", myth['moral']),
             _buildDetail("Source", myth['source']),

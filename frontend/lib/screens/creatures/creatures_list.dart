@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'creatures_details.dart';
+import 'package:frontend/screens/creatures/creatures_details.dart';
 
 class CreaturesListPage extends StatefulWidget {
   const CreaturesListPage({super.key});
 
   @override
-  State<CreaturesListPage> createState() => _CreaturesListPageState();
+  State<CreaturesListPage> createState() => _CreatureListPageState();
 }
 
-class _CreaturesListPageState extends State<CreaturesListPage> {
+class _CreatureListPageState extends State<CreaturesListPage> {
   List creatures = [];
 
   @override
@@ -79,7 +79,7 @@ class _CreaturesListPageState extends State<CreaturesListPage> {
               }
             },
             child: const Text("Add"),
-          )
+          ),
         ],
       ),
     );
