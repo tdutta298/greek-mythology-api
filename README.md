@@ -83,7 +83,7 @@ The project maintains **85%+ code coverage** across:
 - API tests for all endpoints
 - Mock tests for external dependencies
 
-![Test Coverage Report](assets/test-coverage.png)
+![Test Coverage Report](backend/assets/test-coverage.png)
 
 ### Test Structure
 ```
