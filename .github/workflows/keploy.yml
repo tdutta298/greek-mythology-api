@@ -1,0 +1,47 @@
+name: Keploy Test
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+  pull_request:
+    paths:
+      - 'backend/**'
+
+jobs:
+  keploy-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Docker Image
+      working-directory: backend
+      run: |
+        docker build -t greek-backend .
+
+    - name: Run Application Container
+      run: |
+        docker network create keploy-network || true
+        docker run -d --name greek-backend-test \
+          --network keploy-network \
+          -p 3000:3000 greek-backend
+
+    - name: Run Keploy Tests
+      run: |
+        docker run --rm \
+          --network keploy-network \
+          -v ${{ github.workspace }}/backend:/app \
+          ghcr.io/keploy/keploy:v2.6.14 \
+          test --path /app --container-name greek-backend-test
+
+    - name: Cleanup Docker
+      if: always()
+      run: |
+        docker stop greek-backend-test || true
+        docker rm greek-backend-test || true
+        docker network rm keploy-network || true

@@ -2,7 +2,17 @@ const express = require('express');
 const router = express.Router();
 const Myth = require('../models/Myth');
 
-// GET all myths
+/**
+ * @swagger
+ * /api/myths:
+ *   get:
+ *     summary: Get all myths
+ *     tags:
+ *       - Myths
+ *     responses:
+ *       200:
+ *         description: A list of myths
+ */
 router.get('/', async (req, res) => {
   try {
     const myths = await Myth.find();
@@ -12,17 +22,34 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST a new myth
+/**
+ * @swagger
+ * /api/myths:
+ *   post:
+ *     summary: Create a new myth
+ *     tags:
+ *       - Myths
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               charactersInvolved:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       201:
+ *         description: Myth created
+ */
 router.post('/', async (req, res) => {
-  const myth = new Myth({
-    title: req.body.title,
-    summary: req.body.summary,
-    charactersInvolved: req.body.charactersInvolved,
-    locations: req.body.locations,
-    moral: req.body.moral,
-    source: req.body.source
-  });
-
+  const myth = new Myth(req.body);
   try {
     const newMyth = await myth.save();
     res.status(201).json(newMyth);
@@ -31,7 +58,30 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT update myth
+/**
+ * @swagger
+ * /api/myths/{id}:
+ *   put:
+ *     summary: Update a myth by ID
+ *     tags:
+ *       - Myths
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The myth ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Myth updated
+ */
 router.put('/:id', async (req, res) => {
   try {
     const updatedMyth = await Myth.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -41,11 +91,28 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE myth
+/**
+ * @swagger
+ * /api/myths/{id}:
+ *   delete:
+ *     summary: Delete a myth by ID
+ *     tags:
+ *       - Myths
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The myth ID
+ *     responses:
+ *       200:
+ *         description: Myth deleted
+ */
 router.delete('/:id', async (req, res) => {
   try {
     const deletedMyth = await Myth.findByIdAndDelete(req.params.id);
-    res.json({ message: "Myth deleted", data: deletedMyth });
+    res.json({ message: 'Myth deleted', data: deletedMyth });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

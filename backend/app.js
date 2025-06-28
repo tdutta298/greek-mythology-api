@@ -3,13 +3,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+// Swagger setup
+const { swaggerUi, specs } = require('./swagger');
+
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// Swagger UI route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+// API Routes
 app.use('/api/gods', require('./routes/gods'));
 app.use('/api/heroes', require('./routes/heroes'));
 app.use('/api/creatures', require('./routes/creatures'));
@@ -20,4 +26,4 @@ app.get('/', (req, res) => {
   res.send('Greek Mythology API is running! ⚡');
 });
 
-module.exports = app; // Export ONLY the app
+module.exports = app;

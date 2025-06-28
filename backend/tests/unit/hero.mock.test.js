@@ -1,5 +1,5 @@
 const Hero = require('../../models/Hero');
-jest.mock('../../models/Hero'); // mock the entire Hero model
+jest.mock('../../models/Hero');
 
 describe('Hero Model - Mocked', () => {
   it('should call save() and return mocked hero', async () => {
