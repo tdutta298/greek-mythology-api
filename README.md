@@ -94,6 +94,17 @@ backend/test/
 └── mocks/         # Mock implementations
 ```
 
+### 🔍 Keploy AI API Testing
+
+We used [Keploy](https://keploy.io/) for API test generation and validation using OpenAPI schema and real API traffic.
+
+#### ✅ Keploy Test Report
+
+![Keploy Test Report](backend/assets/keploy_test.png)
+
+These tests were auto-generated using Keploy's AI platform and integrated into the CI/CD pipeline to ensure correctness of API behavior.
+
+
 ## 📱 UI Features
 
 - **Home Screen**: Beautiful category grid with color-coded sections
